@@ -1,29 +1,57 @@
 <!doctype html>
-<title>Python Flask File Upload Example</title>
-<h2>Select a file to upload</h2>
-<p>
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
-{% if filename %}
-	<div>
-		<img src="{{ url_for('display_image', filename=filename) }}">
-	</div>
-{% endif %}
-<form method="post" action="/" enctype="multipart/form-data">
-    <dl>
-		<p>
-			<input type="file" name="file" autocomplete="off" required>
-		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
-</form>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>ASL App</title>
+		<!-- ADD THESE STYLE SHEETS TO FINAL PRODUCT -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel= "stylesheet" href= "{{ url_for('static',filename='css/add_img.css') }}">
+	</head>
+	  
+	<body>
+		<!-- INSERT THE DIV BELOW INTO FINAL PRODUCT -->
+		<div class="container">
+			<h3>Select image/images of ASL hand signs to interpret</h2>
+			<p>
+				{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<ul class=flashes>
+					{% for message in messages %}
+					<li>{{ message }}</li>
+					{% endfor %}
+					</ul>
+				{% endif %}
+				{% endwith %}
+			</p>
+			<form method="post" action="/" enctype="multipart/form-data">
+				<dl>
+					<p id="uploads">
+						<input class="uploads" type="file" name="files[]" multiple="true" autocomplete="off" required>
+					</p>
+				</dl>
+				<p>
+					<input type="submit" value="Submit">
+				</p>
+			</form>		
+			<div class="row">
+				{% if filenames %}
+					{% for filename in filenames %}
+						<div class="column">
+							<img src="{{ url_for('display_image', filename=filename) }}">
+							<!-- <p>{{ filenames|length }}</p> -->
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- ADD THESE SCRIPTS TO FINAL PRODUCT -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename = 'js/add_img.js') }}"></script>	
+	</body>
+
+</html>

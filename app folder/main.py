@@ -2,6 +2,8 @@ import os
 from app import app
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template
+from werkzeug.utils import secure_filename
+from PIL import Image, ImageOps
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
@@ -14,22 +16,23 @@ def upload_form():
 
 @app.route('/', methods=['POST'])
 def upload_image():
-	if 'file' not in request.files:
+	if 'files[]' not in request.files:
 		flash('No file part')
 		return redirect(request.url)
-	file = request.files['file']
-	if file.filename == '':
-		flash('No image selected for uploading')
-		return redirect(request.url)
-	if file and allowed_file(file.filename):
-		filename = file.filename
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		#print('upload_image filename: ' + filename)
-		flash('Image successfully uploaded and displayed below')
-		return render_template('upload.html', filename=filename)
-	else:
-		flash('Allowed image types are -> png, jpg, jpeg, gif')
-		return redirect(request.url)
+	files = request.files.getlist('files[]')
+	file_names = []
+	for file in files:
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file_names.append(filename)
+			hand_sign = Image.open(file)
+			resized = hand_sign.resize((200,200))
+			resized.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		#else:
+		#	flash('Allowed image types are -> png, jpg, jpeg, gif')
+		#	return redirect(request.url)
+
+	return render_template('upload.html', filenames=file_names)
 
 @app.route('/display/<filename>')
 def display_image(filename):
@@ -37,4 +40,4 @@ def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
