@@ -149,8 +149,17 @@ form > p > input {
     color: black;
 }
 
+<<<<<<< HEAD
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+=======
 .container {
     margin-top: 25px;
+>>>>>>> 2eee0bdb7f7198b759b33f5ce9661d57513b72ed
 }
 
 @media screen and (max-width: 992px) {
