@@ -12,7 +12,7 @@ def allowed_file(filename):
 	
 @app.route('/')
 def upload_form():
-	return render_template('upload.html')
+	return render_template('index.html')
 
 @app.route('/', methods=['POST'])
 def upload_image():
@@ -32,7 +32,7 @@ def upload_image():
 		#	flash('Allowed image types are -> png, jpg, jpeg, gif')
 		#	return redirect(request.url)
 
-	return render_template('upload.html', filenames=file_names)
+	return render_template('index.html', filenames=file_names)
 
 @app.route('/display/<filename>')
 def display_image(filename):
