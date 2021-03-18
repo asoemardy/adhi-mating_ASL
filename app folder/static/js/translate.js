@@ -4,6 +4,10 @@ const model = await tf.loadLayersModel('javascriptModel\model.json');
 
 var pics = d3.select("#uploads")
 
-const example = tf.fromPixels(pics);  // for example
-const prediction = model.predict(example);
+function lookAtSean (pics) {
+    pics.forEach(function (d) {
+      const example = tf.fromPixels(d);  // for example
+      const prediction = model.predict(example);
+})
+}
 
