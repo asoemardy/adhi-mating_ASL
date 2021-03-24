@@ -1,6 +1,7 @@
 const model = await tf.loadLayersModel("static/aslpredict/model.json");
 // JavaScript
 
+
 var pics = d3.select(".uploadcolumn").select("img");
 var picture = new Image(64,64);
 picture.src = '/display/1.jpg'
@@ -12,3 +13,5 @@ console.log(test);
 const prediction = model.predict(test);
 console.log(prediction);
 console.log(tf.argMax(prediction, -1));
+
+
